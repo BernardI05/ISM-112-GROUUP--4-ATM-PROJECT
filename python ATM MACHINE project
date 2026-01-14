@@ -54,7 +54,7 @@ while attempts > 0:
     if is_valid_pin(pin):
         print("PIN accepted. Welcome.")
         name = input("Enter your name: ").title()
-        print(f"\nHello {name}👋 Welcome")
+        print(f"\nHello {name} Welcome")
         break
     else:
         attempts -=1
@@ -81,12 +81,18 @@ while True:
     if choice == "1":
         print("Your balance is: ", balance)
 
-    elif choice == "2":
-        try:
-            amount = int(input("Enter amount to withdraw: "))
-        except ValueError:
-            print('Invalid input. Please enter a number.')
-            continue
+     elif choice == "2":
+        amount = int(input("Enter amount to withdraw: "))
+        if 0< amount <= balance:
+             if amount + daily_withdrawn > DAILY_LIMIT:
+                print("Daily limit exceeded")
+             else:
+                daily_withdrawn += amount 
+                balance -= amount
+                transaction_history.append(f"Withdrew ₦{amount}")
+                print_receipt("Withdrawal",amount, balance)
+        else:
+            print("Insufficient funds or invalid amount.") 
         
         if 0< amount <= balance:
             balance -= amount
